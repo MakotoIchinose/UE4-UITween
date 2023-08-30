@@ -43,26 +43,26 @@ FWidgetAppearance UBUITweenWidget::GetInitialAppearanceStruct(UWidget* TargetWid
 	// The whole thing is almost the same with BUITweenInstance.cpp,
 	// except we're just getting the initial values.
 
-	FVector2D Translation = TargetWidget->RenderTransform.Translation;
-	float Rotation = TargetWidget->RenderTransform.Angle;
-	FVector2D Scale = TargetWidget->RenderTransform.Translation;
+	FVector2D Translation = TargetWidget->GetRenderTransform().Translation;
+	float Rotation = TargetWidget->GetRenderTransform().Angle;
+	FVector2D Scale = TargetWidget->GetRenderTransform().Translation;
 	float Opacity = TargetWidget->GetRenderOpacity();
 	
 	FLinearColor Color;
 	UUserWidget* UW = Cast<UUserWidget>(TargetWidget);
 	if (UW)
 	{
-		Color = UW->ColorAndOpacity;
+		Color = UW->GetColorAndOpacity();
 	}
 	UImage* UI = Cast<UImage>(TargetWidget);
 	if (UI)
 	{
-		Color = UI->ColorAndOpacity;
+		Color = UI->GetColorAndOpacity();
 	}
 	UBorder* Border = Cast<UBorder>(TargetWidget);
 	if (Border)
 	{
-		Color = Border->ContentColorAndOpacity;
+		Color = Border->GetContentColorAndOpacity();
 	}
 	
 	FVector2D CanvasPosition;
@@ -74,11 +74,11 @@ FWidgetAppearance UBUITweenWidget::GetInitialAppearanceStruct(UWidget* TargetWid
 
 	ESlateVisibility WidgetVisibility = TargetWidget->GetVisibility();
 	
-	float MaxDesiredHeight;
+	float MaxDesiredHeight = 0;
 	USizeBox* SizeBox = Cast<USizeBox>(TargetWidget);
 	if (SizeBox)
 	{
-		MaxDesiredHeight = SizeBox->MaxDesiredHeight;
+		MaxDesiredHeight = SizeBox->GetMaxDesiredHeight();
 	}
 	
 	FMargin WidgetPadding;
@@ -88,28 +88,28 @@ FWidgetAppearance UBUITweenWidget::GetInitialAppearanceStruct(UWidget* TargetWid
 	if (OverlaySlot)
 	{
 		WidgetPadding = FVector4(
-			OverlaySlot->Padding.Left,
-			OverlaySlot->Padding.Top,
-			OverlaySlot->Padding.Bottom,
-			OverlaySlot->Padding.Right);
+			OverlaySlot->GetPadding().Left,
+			OverlaySlot->GetPadding().Top,
+			OverlaySlot->GetPadding().Bottom,
+			OverlaySlot->GetPadding().Right);
 	}
 	else if (HorizontalBoxSlot)
 	{
 		WidgetPadding = FVector4(
-			HorizontalBoxSlot->Padding.Left,
-			HorizontalBoxSlot->Padding.Top,
-			HorizontalBoxSlot->Padding.Bottom,
-			HorizontalBoxSlot->Padding.Right);
+			HorizontalBoxSlot->GetPadding().Left,
+			HorizontalBoxSlot->GetPadding().Top,
+			HorizontalBoxSlot->GetPadding().Bottom,
+			HorizontalBoxSlot->GetPadding().Right);
 	}
 	else if (VerticalBoxSlot)
 	{
 		WidgetPadding = FVector4(
-			VerticalBoxSlot->Padding.Left,
-			VerticalBoxSlot->Padding.Top,
-			VerticalBoxSlot->Padding.Bottom,
-			VerticalBoxSlot->Padding.Right);
+			VerticalBoxSlot->GetPadding().Left,
+			VerticalBoxSlot->GetPadding().Top,
+			VerticalBoxSlot->GetPadding().Bottom,
+			VerticalBoxSlot->GetPadding().Right);
 	}
 
-	return FWidgetAppearance(Translation, Rotation, Scale, Opacity, Color, CanvasPosition, Visibility, MaxDesiredHeight, Padding);
+	return FWidgetAppearance(Translation, Rotation, Scale, Opacity, Color, CanvasPosition, GetVisibility(), MaxDesiredHeight, GetPadding());
 }
 

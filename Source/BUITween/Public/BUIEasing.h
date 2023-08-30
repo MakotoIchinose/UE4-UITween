@@ -40,7 +40,6 @@ enum class EBUIEasingType : uint8
 struct FBUIEasing
 {
 public:
-	#define TWO_PI          (6.28318530717f)
 
 	static float Ease( EBUIEasingType Type, float time, float duration = 1.0f, float overshootOrAmplitude = 0.1f, float period = 1.0f )
 	{
